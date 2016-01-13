@@ -38,7 +38,7 @@ public class JSoupUtil {
 		}
 	}
 
-	private static void insert(SQLiteStatement stmt, int no) throws IOException {
+	public static void insert(SQLiteStatement stmt, int no) throws IOException {
 		Document doc = Jsoup.connect(
 				"http://datachart.500.com/ssq/history/newinc/history.php?end=" + no).get();
 		Elements newsHeadlines = doc.select("#tdata tr");

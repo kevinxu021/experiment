@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,7 +17,20 @@ public class DBUtil {
 		// initDB();
 	}
 
-	public static void initDB(SQLiteDatabase db, InputStream inputStream) throws IOException {
+	public static void initDB(SQLiteDatabase db) throws IOException {
+		SQLiteStatement stmt =null;
+		try {
+			db.beginTransaction();
+			stmt = db.compileStatement(INSERT_SQL);
+			JSoupUtil.insert(stmt,(Calendar.getInstance().get(Calendar.YEAR)-1)%100);
+			db.setTransactionSuccessful();
+		} finally {
+			db.endTransaction();
+			if(stmt!=null)
+				stmt.close();
+		}
+	}
+	public static void initDB_1(SQLiteDatabase db, InputStream inputStream) throws IOException {
 		System.out.println("initDB");
 		InputStreamReader isr = new InputStreamReader(inputStream);
 		BufferedReader br = new BufferedReader(isr);
